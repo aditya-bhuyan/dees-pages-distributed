@@ -1,8 +1,8 @@
 ## Instruction to start the Distributed Application from scratch
 - Download the project zip file from [here](http://dell-edu-lab-store.s3.ap-south-1.amazonaws.com/repository/pages-distributed.zip)  and extract it inside workspace folder
 - Create a repository in github with the name *pages-distributed*. Keep everything default, while creating the repository, don't change anything other than default.
-- Copy the git remote add origin <path> command and execute it in the directory
-- Create a build.gradle file with following content
+- Copy the git remote add origin <path> command and execute it in the directory terminal.
+- Create a build.gradle file with following content. That could be done by "cat > build.gradle" and pasting the following commands and CTRL+C.
 
 ```groovy
 plugins {
@@ -78,3 +78,4 @@ include 'application:category-server'
 ```
 - Create src/main/java and src/main/resources folder under all the modules. Ensure that both these folders are marked as *Sources Root* and *Resources Root* respectively in all the four modules.
 - Create a server.gradle file under application
+- Commit the changes locally in the git repository. Don't push to remote repo.
