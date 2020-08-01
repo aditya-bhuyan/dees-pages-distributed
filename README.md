@@ -79,3 +79,7 @@ include 'application:category-server'
 - Create src/main/java and src/main/resources folder under all the modules. Ensure that both these folders are marked as *Sources Root* and *Resources Root* respectively in all the four modules.
 - Create a server.gradle file under application
 - Commit the changes locally in the git repository. Don't push to remote repo.
+- Execute the following command to checkout **distributed-start** tag and follow the **Lab09-Distributed-README.md** file to reach the solution.
+```shell script
+git checkout distributed-start -b distributed-work
+```
