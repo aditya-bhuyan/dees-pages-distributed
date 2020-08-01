@@ -9,7 +9,7 @@ spec:
   volumes:
   - name: log-volume
     persistentVolumeClaim:
-        claimName: log-persistent-claim
+        claimName: log-persistent-claim-<your-name>
   containers:
   - image: adityapratapbhuyan/category:distributed
     imagePullPolicy: Always

@@ -883,7 +883,7 @@ metadata:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: log-persistent-claim
+  name: log-persistent-claim-<your-name>
   namespace: <your-name>
 spec:
   volumeMode: Filesystem
@@ -899,7 +899,7 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: log-persistent-volume
+  name: log-persistent-volume-<your-name>
   namespace: <your-name>
   labels:
     type: local
@@ -911,7 +911,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/logs"
+    path: "/mnt/logs-<your-name>"
 ```
  - business-deployment.yaml
  ```yaml
@@ -936,7 +936,7 @@ spec:
       volumes:
       - name: log-volume
         persistentVolumeClaim:
-          claimName: log-persistent-claim
+          claimName: log-persistent-claim-<your-name>
       containers:
       - image: <docker-user-name>/business:distributed
         imagePullPolicy: Always
@@ -966,7 +966,7 @@ spec:
   volumes:
   - name: log-volume
     persistentVolumeClaim:
-      claimName: log-persistent-claim
+      claimName: log-persistent-claim-<your-name>
   containers:
   - image: <docker-user-name>/business:distributed
     imagePullPolicy: Always
@@ -1029,7 +1029,7 @@ spec:
       volumes:
       - name: log-volume
         persistentVolumeClaim:
-          claimName: log-persistent-claim
+          claimName: log-persistent-claim-<your-name>
       containers:
       - image: <docker-user-name>/category:distributed
         imagePullPolicy: Always
@@ -1055,7 +1055,7 @@ spec:
   volumes:
   - name: log-volume
     persistentVolumeClaim:
-        claimName: log-persistent-claim
+        claimName: log-persistent-claim-<your-name>
   containers:
   - image: <docker-user-name>/category:distributed
     imagePullPolicy: Always
@@ -1142,11 +1142,11 @@ spec:
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
+          mountPath: /var/lib/mysql-<your-name>
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: mysql-pv-claim-<your-name>
 
 ```
  - mysql-pvc.yaml
@@ -1154,7 +1154,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: mysql-pv-claim-<your-name>
   namespace: <your-name>
 spec:
   storageClassName: mysql-<your-name>
@@ -1170,7 +1170,7 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: mysql-persistent-volume
+  name: mysql-persistent-volume-<your-name>
   namespace: <your-name>
   labels:
     type: local
@@ -1181,7 +1181,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: "/mnt/data"
+    path: "/mnt/data-<yourname>"
 ```
  - mysql-service.yaml
 ```yaml
@@ -1226,7 +1226,7 @@ test.environment([
   * PKS_CLUSTER [Get it from the instructor]
   * PKS_TOKEN [Follow the below steps to create it]
 ```text
-1. Create an account using the link https://account.run.pivotal.io/z/uaa/sign-up
+1. Create an account if not there already using the link https://account.run.pivotal.io/z/uaa/sign-up. Otherwise login to the account.
 2. Check your inbox and verify email, so that you can sign in successfully.
 3. Access https://network.pivotal.io/users/dashboard/edit-profile
 4. Create an API token and copy it.
@@ -1326,7 +1326,12 @@ jobs:
           kubectl apply -f deployments/business-deployment.yaml
 ```
 - In all the files replace \<docker-user-name> with your own docker-user-name and replace \<user-name> with your own first name
-- Push your code to github repository so that Github Actions would build, test, dockerize the application and finally deploy it on kubernetes cluster.
+- Push your code to github repository so that Github Actions would build, test, dockerize the application and finally deploy it on kubernetes cluster. Use the below command to push your code to remote repo.
+```shell script
+git add .
+git commit -m "MESSAGE"
+git push origin distributed-work:master -f
+```
 - The pipeline would create a namespace with \<your-name> and create all the objects inside it.
 - All the files would be executed in following order in kubernetes cluster if pipeline is not used.
 ```shell script
@@ -1361,15 +1366,10 @@ kubectl get deployment
 kubectl get pod
 kubectl get service
 ```
-- From the output of the last command, get the url of business and category services. Then access the services using "http//\<external-ip>:Port" on browser.
-- If the service is of type *NodePort*, use the following command to port forward the services to access it. 
+- From the output of the last command, get the url of business and category services. If the service is of tyepe **LoadBalancer** then access the services using "http//\<external-ip>:Port" on browser.
+- If the service is of type *NodePort*, use the following command to port forward the services to access it. The below instructions are for *business microservice*. For *category microserivce* change the port and service name.
 ```shell script
 kubectl port-forward service/business 8081:8081
 ```
 - You can execute the above command in a terminal and access the application using url http://localhost:8081. To stop port forward use CTRL+C
-- Push the changes to remote repository using below command
-```shell script
-git add .
-git commit -m "MESSAGE"
-git push origin distributed-work:master -f
-```
+

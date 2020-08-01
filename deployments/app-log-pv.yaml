@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: log-persistent-volume
+  name: log-persistent-volume-<your-name>
   namespace: aditya
   labels:
     type: local
@@ -13,4 +13,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/logs"
+    path: "/mnt/logs-<your-name>"
